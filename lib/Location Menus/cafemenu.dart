@@ -146,31 +146,209 @@ class _CafeMenuState extends State<CafeMenu> {
             positioning: SnapPositioning.relativeToAvailableSpace,
           ),
           builder: (context, state) {
-            return Material(
-              child: Container(
-                color: Colors.white,
-                height: MediaQuery.of(context).size.height/1.45,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height/80,
-                    ),
-                    Container(
-                      height: 7,
-                      width: 40,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: Colors.grey[300]
+            try {
+              return Material(
+                child: Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height/1.45,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/80,
                       ),
-                    ),
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height/60,
-                    ),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 4),
-                      child: Center(
+                      Container(
+                        height: 7,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey[300]
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/60,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        child: Center(
+                          child: Text(
+                            menu[index]['Recipe_Print_As_Name'],
+                            style: TextStyle(
+                              fontSize: menu[index]['Recipe_Print_As_Name'].length > 58 ? (MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 28 : MediaQuery.of(context).size.height / 32) : (MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 28 : MediaQuery.of(context).size.height / 30),
+                              fontFamily: 'Arabic',
+                              color: Colors.black
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 0),
+                      Center(
                         child: Text(
-                          menu[index]['Recipe_Print_As_Name'],
+                          menu[index]['Menu_Category_Name'].replaceAll("&amp;", "&"),
+                          style: TextStyle(
+                            color: Colors.grey[500],
+                            fontFamily: 'Montserrat',
+                            fontSize: MediaQuery.of(context).size.height / 56,
+                          ),
+                        ),
+                      ),
+                      menu[index]['Recipe_Web_Codes'].trim() == "" ? SizedBox(height: 0) : SizedBox(height: MediaQuery.of(context).size.height/80,),
+                      Text(
+                        menu[index]['Recipe_Web_Codes'],
+                        style: TextStyle(
+                          fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                          fontWeight: FontWeight.w600,
+                          color: Colors.black
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      menu[index]['Recipe_Web_Codes'].trim() == "" ? SizedBox(height: 0) : SizedBox(height: MediaQuery.of(context).size.height/80,),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 2),
+                        child: Text(
+                          'Allergens: ' + menu[index]['Allergens'],
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      new AnimatedCircularChart(
+                        key: _chartKey,
+                        size: Size(
+                          MediaQuery.of(context).size.height / 3,
+                          MediaQuery.of(context).size.height / 3
+                        ),
+                        initialChartData: <CircularStackEntry>[
+                          new CircularStackEntry(
+                            <CircularSegmentEntry>[
+                              new CircularSegmentEntry(
+                                (((carbDouble/total) * (pow(10.0, 2))).round().toDouble() / (pow(10.0, 2)))*100,
+                                Colors.blue[300],
+                                rankKey: 'completed',
+                              ),
+                              new CircularSegmentEntry(
+                                (((fatDouble/total) * (pow(10.0, 2))).round().toDouble() / (pow(10.0, 2)))*100,
+                                Colors.red[300],
+                                rankKey: 'remaining',
+                              ),
+                              new CircularSegmentEntry(
+                                (((proDouble/total) * (pow(10.0, 2))).round().toDouble() / (pow(10.0, 2)))*100 + 5,
+                                Colors.purple[300],
+                                rankKey: 'completed',
+                              ),
+                            ],
+                            rankKey: 'progress',
+                          ),
+                        ],
+                        chartType: CircularChartType.Radial,
+                        percentageValues: true,
+                        holeLabel: menu[index]['Calories'] + ' cal',
+                        labelStyle: new TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: MediaQuery.of(context).size.height / 36,
+              
+                        ),
+                      ),
+                      SizedBox(height: MediaQuery.of(context).size.height/80,),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                text: 'Carbs: ',
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                                  color: Colors.black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: menu[index]['Total_Carb'],
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                                      color: Colors.blue[300],
+                                    ),
+                                  )
+                                ]
+                                
+                                //textAlign: TextAlign.center,
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: '  Fats: ',
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                                  color: Colors.black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: menu[index]['Total_Fat'],
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                                      color: Colors.red[300],
+                                    ),
+                                  )
+                                ]
+                                
+                                //textAlign: TextAlign.center,
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                text: '  Protein: ',
+                                style: TextStyle(
+                                  fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                                  color: Colors.black,
+                                ),
+                                children: [
+                                  TextSpan(
+                                    text: menu[index]['Protein'],
+                                    style: TextStyle(
+                                      fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                                      color: Colors.purple[300],
+                                    ),
+                                  )
+                                ]
+                                //textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            } catch (e) {
+              return Material(
+                child: Container(
+                  height: MediaQuery.of(context).size.height / 5,
+                  margin: EdgeInsets.symmetric(horizontal: 4),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/80,
+                      ),
+                      Container(
+                        height: 7,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey[300]
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/25,
+                      ),
+                      Center(
+                        child: Text(
+                          //menu[index]['Recipe_Print_As_Name'],
+                          'No nutritional information available',
                           style: TextStyle(
                             fontSize: menu[index]['Recipe_Print_As_Name'].length > 58 ? (MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 28 : MediaQuery.of(context).size.height / 32) : (MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 28 : MediaQuery.of(context).size.height / 30),
                             fontFamily: 'Arabic',
@@ -179,150 +357,11 @@ class _CafeMenuState extends State<CafeMenu> {
                           textAlign: TextAlign.center,
                         ),
                       ),
-                    ),
-                    SizedBox(height: 0),
-                    Center(
-                      child: Text(
-                        menu[index]['Menu_Category_Name'].replaceAll("&amp;", "&"),
-                        style: TextStyle(
-                          color: Colors.grey[500],
-                          fontFamily: 'Montserrat',
-                          fontSize: MediaQuery.of(context).size.height / 56,
-                        ),
-                      ),
-                    ),
-                    menu[index]['Recipe_Web_Codes'].trim() == "" ? SizedBox(height: 0) : SizedBox(height: MediaQuery.of(context).size.height/80,),
-                    Text(
-                      menu[index]['Recipe_Web_Codes'],
-                      style: TextStyle(
-                        fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                        fontWeight: FontWeight.w600,
-                        color: Colors.black
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    menu[index]['Recipe_Web_Codes'].trim() == "" ? SizedBox(height: 0) : SizedBox(height: MediaQuery.of(context).size.height/80,),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 2),
-                      child: Text(
-                        'Allergens: ' + menu[index]['Allergens'],
-                        style: TextStyle(
-                          fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                          color: Colors.black,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                    new AnimatedCircularChart(
-                      key: _chartKey,
-                      size: Size(
-                        MediaQuery.of(context).size.height / 3,
-                        MediaQuery.of(context).size.height / 3
-                      ),
-                      initialChartData: <CircularStackEntry>[
-                        new CircularStackEntry(
-                          <CircularSegmentEntry>[
-                            new CircularSegmentEntry(
-                              (((carbDouble/total) * (pow(10.0, 2))).round().toDouble() / (pow(10.0, 2)))*100,
-                              Colors.blue[300],
-                              rankKey: 'completed',
-                            ),
-                            new CircularSegmentEntry(
-                              (((fatDouble/total) * (pow(10.0, 2))).round().toDouble() / (pow(10.0, 2)))*100,
-                              Colors.red[300],
-                              rankKey: 'remaining',
-                            ),
-                            new CircularSegmentEntry(
-                              (((proDouble/total) * (pow(10.0, 2))).round().toDouble() / (pow(10.0, 2)))*100 + 5,
-                              Colors.purple[300],
-                              rankKey: 'completed',
-                            ),
-                          ],
-                          rankKey: 'progress',
-                        ),
-                      ],
-                      chartType: CircularChartType.Radial,
-                      percentageValues: true,
-                      holeLabel: menu[index]['Calories'] + ' cal',
-                      labelStyle: new TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.bold,
-                        fontSize: MediaQuery.of(context).size.height / 36,
-
-                      ),
-                    ),
-                    SizedBox(height: MediaQuery.of(context).size.height/80,),
-                    Container(
-                      margin: EdgeInsets.symmetric(horizontal: 2),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          RichText(
-                            text: TextSpan(
-                              text: 'Carbs: ',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                                color: Colors.black,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: menu[index]['Total_Carb'],
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                                    color: Colors.blue[300],
-                                  ),
-                                )
-                              ]
-                              
-                              //textAlign: TextAlign.center,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: '  Fats: ',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                                color: Colors.black,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: menu[index]['Total_Fat'],
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                                    color: Colors.red[300],
-                                  ),
-                                )
-                              ]
-                              
-                              //textAlign: TextAlign.center,
-                            ),
-                          ),
-                          RichText(
-                            text: TextSpan(
-                              text: '  Protein: ',
-                              style: TextStyle(
-                                fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                                color: Colors.black,
-                              ),
-                              children: [
-                                TextSpan(
-                                  text: menu[index]['Protein'],
-                                  style: TextStyle(
-                                    fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
-                                    color: Colors.purple[300],
-                                  ),
-                                )
-                              ]
-                              //textAlign: TextAlign.center,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            );
+              );
+            }
           }
         );
       }
