@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
-
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import '../ad_manager.dart';
 
 class LowerMenu extends StatefulWidget {
@@ -461,6 +461,104 @@ class _LowerMenuState extends State<LowerMenu> {
   //   await pref.clear();
   // }
 
+  Map ratings = 
+  {
+    "Cage Free Egg McBC on English Muffin": 4.5,
+  };
+
+  void _showRating (String foodItem) {
+    List<double> snaps = [0.3];
+    showSlidingBottomSheet(
+      context, 
+      builder: (context) {
+        return SlidingSheetDialog(
+          duration: Duration(milliseconds: 600),
+          //backdropColor: Colors.grey[700].withOpacity(0.7),
+          // controller: _sheetController,
+          elevation: 8,
+          cornerRadius: 15,
+          snapSpec: SnapSpec(
+            snap: true,
+            snappings: snaps,
+            positioning: SnapPositioning.relativeToAvailableSpace,
+          ),
+          builder: (context, state) {
+            return Material(
+                child: Container(
+                  color: Colors.white,
+                  height: MediaQuery.of(context).size.height/3.4,
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/80,
+                      ),
+                      Container(
+                        height: 7,
+                        width: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(50),
+                          color: Colors.grey[300]
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/60,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 2),
+                        child: Text(
+                          "Add a rating for:",
+                          style: TextStyle(
+                            fontSize: MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 38 : MediaQuery.of(context).size.height / 45,
+                            color: Colors.black,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/40,
+                      ),
+                      Container(
+                        margin: EdgeInsets.symmetric(horizontal: 4),
+                        child: Center(
+                          child: Text(
+                            foodItem,
+                            style: TextStyle(
+                              fontSize: foodItem.length > 58 ? (MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 28 : MediaQuery.of(context).size.height / 32) : (MediaQuery.of(context).size.height <= 750 ? MediaQuery.of(context).size.height / 28 : MediaQuery.of(context).size.height / 30),
+                              fontFamily: 'Arabic',
+                              color: Colors.black
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height/60,
+                      ),
+                      RatingBar.builder(
+                        initialRating: ratings[foodItem],
+                        minRating: 0,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemPadding: EdgeInsets.symmetric(horizontal: 4.0),
+                        itemBuilder: (context, _) => Icon(
+                          Icons.star,
+                          color: Colors.amber,
+                        ),
+                        onRatingUpdate: (rating) {
+                          print(rating);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+            );
+          }
+        );
+      }
+    );
+  }
+
   
   @override
   Widget build(BuildContext context) {
@@ -541,18 +639,6 @@ class _LowerMenuState extends State<LowerMenu> {
             onPageChanged: _onPageViewChange,
             controller: PageController(viewportFraction: 1),
             itemBuilder: (BuildContext context, int itemIndex){
-              // if (itemIndex == 0){
-              //   mealName = 'Breakfast';
-              // }
-              // else if (itemIndex == 1){
-              //   mealName = 'Lunch';
-              // }
-              // else if (itemIndex == 2){
-              //   mealName = 'Dinner';
-              // }
-              // else if (itemIndex == 3){
-              //   mealName = 'Late Night';
-              // }
               return SingleChildScrollView(
                 child: Column(
                   children: [
@@ -568,6 +654,9 @@ class _LowerMenuState extends State<LowerMenu> {
                           //   addToFavorites('${mealItems[itemIndex][index]}', index, itemIndex);
                           //   viewFavorites();
                           // },
+                          
+                          // onLongPress: () => _showRating('${mealItems[itemIndex][index]}'),
+                          
                           child: Container(
                             alignment: Alignment.centerLeft,
                             //margin: EdgeInsets.only(top: 2),

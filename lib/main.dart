@@ -240,18 +240,22 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
-  // DateTime now = new DateTime.now();
-  // DateTime date = new DateTime(now.year, now.month, now.day);
-
-  // String dropdownValue = DateTime(now.year, now.month, now.day);
-
   List<DropdownMenuItem<String>> _dropDownItem() {
 
     return ddl.map(
       (value) =>
       DropdownMenuItem(
         value: value,
-        child: Center(child: Text(value, style: TextStyle(fontSize: 30,fontFamily: "Montserrat", fontWeight: FontWeight.w500), textAlign: TextAlign.center)),
+        child: Text(
+          value,
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Montserrat',
+            fontSize: 24,
+            fontWeight: FontWeight.w500
+          ),
+          textAlign: TextAlign.center
+        ),
       )
     ).toList();
   }
@@ -307,67 +311,13 @@ class _MyHomePageState extends State<MyHomePage> {
         automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.white,
-            // title: Text(
-            //   'EatBC',
-            //   style: TextStyle(
-                // fontSize: 36,
-                // fontFamily: 'Utopia',
-                // color: Color(0xFF8a100b)
-            //   ),
-            // ),
-            title: Container(
-              width: MediaQuery.of(context).size.width/2,
-              child: DropdownButtonHideUnderline(
-                    child: DropdownButton(
-                      isExpanded: true,
-                      dropdownColor: Colors.white,
-                      icon: Icon(
-                        Icons.arrow_drop_down,
-                        size: 34,
-                        color: Color(0xFF8a100b),
-                      ),
-                      elevation: 0,
-                      style: TextStyle(
-                        // color: Color(0xFF2A7FC5),
-                        // fontSize: 20,
-                        // fontFamily: "Poppins"
-                        fontSize: 36,
-                        fontFamily: 'Utopia',
-                        color: Color(0xFF8a100b),
-                      ),
-                      value: dropdownValue,
-                      items: _dropDownItem(),
-                      onChanged: (value){
-                        print(value);
-                        setState(() {
-                          dropdownValue=value;
-                          if (value == ddl[0])
-                          {
-                            setMenu(ddl.indexOf(value));
-                          }
-                          else if (value == ddl[1])
-                          {
-                            setMenu(ddl.indexOf(value));
-                          }
-                          else if (value == ddl[2])
-                          {
-                            setMenu(ddl.indexOf(value));
-                          }
-                          else if (value == ddl[3])
-                          {
-                            setMenu(ddl.indexOf(value));
-                          }
-                          else if (value == ddl[4])
-                          {
-                            setMenu(ddl.indexOf(value));
-                          }
-                          
-                        });
-                        
-                        
-                      },
-                    ),
-                  ),
+            title: Text(
+              'EatBC',
+              style: TextStyle(
+                fontSize: 36,
+                fontFamily: 'Utopia',
+                color: Color(0xFF8a100b)
+              ),
             ),
           ),
         body: RefreshIndicator(
@@ -377,6 +327,61 @@ class _MyHomePageState extends State<MyHomePage> {
           child: SingleChildScrollView(
             child: Column(
               children: [
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    width: MediaQuery.of(context).size.width/2.45,
+                    margin: EdgeInsets.only(left: 24),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton(
+                        isExpanded: true,
+                        dropdownColor: Colors.white,
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          size: 24,
+                          color: Colors.black,
+                        ),
+                        elevation: 0,
+                        value: dropdownValue,
+                        items: _dropDownItem(),
+                        onChanged: (value){
+                          print(value);
+                          setState(() {
+                            dropdownValue=value;
+                            if (value == ddl[0])
+                            {
+                              setMenu(ddl.indexOf(value));
+                            }
+                            else if (value == ddl[1])
+                            {
+                              setMenu(ddl.indexOf(value));
+                            }
+                            else if (value == ddl[2])
+                            {
+                              setMenu(ddl.indexOf(value));
+                            }
+                            else if (value == ddl[3])
+                            {
+                              setMenu(ddl.indexOf(value));
+                            }
+                            else if (value == ddl[4])
+                            {
+                              setMenu(ddl.indexOf(value));
+                            }
+                            
+                          });
+                          
+                          
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+                // Divider(
+                //   height: 0,
+                //   thickness: 0.5,
+                //   color: Colors.grey[500],
+                // ),
                 ListView.builder(
                   shrinkWrap: true,
                   physics: ScrollPhysics(),
@@ -468,7 +473,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
-        elevation: 0,
+        elevation: 1,
         items: [
           BottomNavigationBarItem(icon: Icon(Icons.ac_unit, color: Colors.white), label: '', activeIcon: Icon(Icons.ac_unit, color: Colors.white)),
           BottomNavigationBarItem(icon: Icon(Icons.ac_unit, color: Colors.white), label: '', activeIcon: Icon(Icons.ac_unit, color: Colors.white)),
@@ -574,17 +579,17 @@ class _ShowAboutPageState extends State<ShowAboutPage> {
               SizedBox(
                 height: 10,
               ),
-              // Text(
-              //   'Copyright © John LaCava, 2020',
-              //   style: TextStyle(
-              //     fontSize: 14,
-              //     fontFamily: 'Montserrat',
-              //     color: Colors.grey[600]
-              //   ),
-              // ),
-              // SizedBox(
-              //   height: 10,
-              // ),
+              Text(
+                "John LaCava, '23",
+                style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: 'Montserrat',
+                  color: Colors.grey[600]
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
               Divider(
                 thickness: 1,
               ),
