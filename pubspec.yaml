@@ -34,6 +34,8 @@ dependencies:
   firebase_admob:
   connectivity:
   rflutter_alert:
+  shared_preferences:
+  intl:
 
 
   # The following adds the Cupertino Icons font to your application.

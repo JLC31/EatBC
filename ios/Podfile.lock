@@ -87,6 +87,8 @@ PODS:
     - Flutter
   - PromisesObjC (1.2.9)
   - Reachability (3.2)
+  - shared_preferences (0.0.1):
+    - Flutter
   - url_launcher (0.0.1):
     - Flutter
 
@@ -99,6 +101,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - Google-Mobile-Ads-SDK
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
 
 SPEC REPOS:
@@ -132,6 +135,8 @@ EXTERNAL SOURCES:
     :path: Flutter
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   url_launcher:
     :path: ".symlinks/plugins/url_launcher/ios"
 
@@ -157,6 +162,7 @@ SPEC CHECKSUMS:
   package_info: 873975fc26034f0b863a300ad47e7f1ac6c7ec62
   PromisesObjC: b48e0338dbbac2207e611750777895f7a5811b75
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   url_launcher: 6fef411d543ceb26efce54b05a0a40bfd74cbbef
 
 PODFILE CHECKSUM: da09dbe5ce239c3ed0a48eaea51a084ae27c7b73

@@ -1,8 +1,10 @@
 import 'dart:math';
 
 import 'package:EatBC/Globals.dart';
+import 'package:EatBC/user_preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 import '../ad_manager.dart';
@@ -50,8 +52,19 @@ class _LowerMenuState extends State<LowerMenu> {
   Set<String> mealCount = {};
 
   void getLowerItems() {
+    List data;
 
-    List data = Globals.data;
+    if (Globals.futureData == null)
+    {
+      setState(() {
+        data = Globals.data;
+      });
+    }
+    else {
+      setState(() {
+        data=Globals.futureData;
+      });
+    }
 
     List lowerBItems = [];
     List lowerLItems = [];
@@ -104,6 +117,7 @@ class _LowerMenuState extends State<LowerMenu> {
       mealCount = meals;
     });
   }
+
 
   @override
   void initState() {
@@ -408,6 +422,45 @@ class _LowerMenuState extends State<LowerMenu> {
     });
   }
 
+
+  // List<String> info = List<String>();
+
+  // addToFavorites(String foodItem, int index, int itemIndex) async {
+  //   List menu = [];
+  //   if (itemIndex == 0){
+  //     menu = lowerBNut;
+  //   }
+  //   else if (itemIndex == 1){
+  //     menu = lowerLNut;
+  //   }
+  //   else if (itemIndex == 2){
+  //     menu =lowerDNut;
+  //   }
+  //   else if (itemIndex == 3){
+  //     menu =lowerLNNut;
+  //   }
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+  //   // UserPreferences().data.addAll(menu[index]['Recipe_Print_As_Name']);
+  //   // menu[index]['Recipe_Print_As_Name'];
+
+  //   setState(() {
+  //     info.add(menu[index]['Recipe_Print_As_Name'].toString());
+  //     prefs.setStringList("fav", info);
+  //   });
+  //   //print(info);
+  // }
+
+  // viewFavorites() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   print(prefs.getStringList("fav"));
+  // }
+
+  // clearFavorites() async {
+  //   final pref = await SharedPreferences.getInstance();
+  //   await pref.clear();
+  // }
+
   
   @override
   Widget build(BuildContext context) {
@@ -511,12 +564,16 @@ class _LowerMenuState extends State<LowerMenu> {
                       itemBuilder: (BuildContext context, int index) {
                         return GestureDetector(
                           onTap: () => _showDialog('${mealItems[itemIndex][index]}', index, itemIndex),
+                          // onLongPress: () {
+                          //   addToFavorites('${mealItems[itemIndex][index]}', index, itemIndex);
+                          //   viewFavorites();
+                          // },
                           child: Container(
                             alignment: Alignment.centerLeft,
                             //margin: EdgeInsets.only(top: 2),
                             height: 50,
                             child: Container(
-                              margin: EdgeInsets.only(left: 2),
+                              margin: EdgeInsets.only(left: 8),
                               child: Text(
                                 ' ${mealItems[itemIndex][index]}',
                                 style: TextStyle(

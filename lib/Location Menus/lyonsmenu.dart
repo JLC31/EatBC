@@ -54,7 +54,19 @@ class _LyonsMenuState extends State<LyonsMenu> {
 
   void getLyonsItems() {
 
-    List data = Globals.data;
+    List data;
+
+    if (Globals.futureData == null)
+    {
+      setState(() {
+        data = Globals.data;
+      });
+    }
+    else {
+      setState(() {
+        data=Globals.futureData;
+      });
+    }
 
     List lyonsBItems = [];
     List lyonsLItems = [];

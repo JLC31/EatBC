@@ -48,7 +48,19 @@ class _CafeMenuState extends State<CafeMenu> {
 
   void getcafeItems() {
 
-    List data = Globals.data;
+    List data;
+
+    if (Globals.futureData == null)
+    {
+      setState(() {
+        data = Globals.data;
+      });
+    }
+    else {
+      setState(() {
+        data=Globals.futureData;
+      });
+    }
 
     List cafeBItems = [];
     List cafeLItems = [];

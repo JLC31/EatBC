@@ -53,7 +53,19 @@ class _StuMenuState extends State<StuMenu> {
 
   void getstuItems() {
 
-    List data = Globals.data;
+    List data;
+
+    if (Globals.futureData == null)
+    {
+      setState(() {
+        data = Globals.data;
+      });
+    }
+    else {
+      setState(() {
+        data=Globals.futureData;
+      });
+    }
 
     List stuBItems = [];
     List stuLItems = [];

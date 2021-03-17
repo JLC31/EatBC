@@ -51,7 +51,19 @@ class _CarneysMenuState extends State<CarneysMenu> {
 
   void getCarneysItems() {
 
-    List data = Globals.data;
+    List data;
+
+    if (Globals.futureData == null)
+    {
+      setState(() {
+        data = Globals.data;
+      });
+    }
+    else {
+      setState(() {
+        data=Globals.futureData;
+      });
+    }
 
     List carneysBItems = [];
     List carneysLItems = [];

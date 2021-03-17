@@ -1,14 +1,17 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:EatBC/Globals.dart';
 import 'package:EatBC/Location%20Menus/cafemenu.dart';
 import 'package:EatBC/Location%20Menus/carneysmenu.dart';
 import 'package:EatBC/Location%20Menus/stumenu.dart';
+import 'package:EatBC/user_preferences.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:intl/intl.dart';
 
 import 'Location Menus/lowermenu.dart';
 import 'Location Menus/lyonsmenu.dart';
@@ -18,7 +21,9 @@ import 'ad_manager.dart';
 
 const String testDevice = 'Mobile_id';
 
-void main() {
+void main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await UserPreferences().init();
   runApp(MyApp());
 }
 
@@ -62,6 +67,10 @@ class _MyHomePageState extends State<MyHomePage> {
   List _locations = [];
 
   List<List<dynamic>> menu = [[]];
+  String dropdownValue = "";
+  List<String> ddl = [];
+
+  List<String> locationNames = [];
 
   Future<void> getTodayMenu() async {
     final response = await http.get(
@@ -77,7 +86,6 @@ class _MyHomePageState extends State<MyHomePage> {
       locations.add(data[i]['Location_Name'].trim());
     }
 
-    List<String> locationNames = [];
 
     for (String name in locations){
       locationNames.add(name);
@@ -110,12 +118,97 @@ class _MyHomePageState extends State<MyHomePage> {
       }
     }
 
+    DateTime now = new DateTime.now();
+    DateTime date1 = new DateTime(now.year, now.month, now.day);
+    DateTime date2 = new DateTime(now.year, now.month, now.day+1);
+    DateTime date3 = new DateTime(now.year, now.month, now.day+2);
+    DateTime date4 = new DateTime(now.year, now.month, now.day+3);
+    DateTime date5 = new DateTime(now.year, now.month, now.day+4);
+    final f = new DateFormat('MM/dd/yyyy');
+
 
     setState(() {
       Globals.locations = locationNames;
       _locations = locationNames;
       menu = menumenu.sublist(1);
+      dropdownValue = f.format(date1);
+      for (int i=0; i< 5; i++){
+        ddl.add(f.format(DateTime(now.year, now.month, now.day +i)));
+      }
     });
+  }
+
+  List<List<dynamic>> futureMenu = [[]];
+
+  Future<void> getFutureMenu() async {
+    final response = await http.get(
+    'https://web.bc.edu/dining/menu/futureMenu_PROD.json'
+  );
+  final futureData = jsonDecode(response.body);
+
+  Globals.futureData = futureData;
+
+  // var dates = <String>{};
+
+  // for (int j = 0; j<futureData.length; j++){
+  //   //print(futureData[j]['Serve_Date']);
+  //   dates.add(futureData[j]['Serve_Date']);
+  // }
+
+  // List<String> dateList = List<String>();
+
+  // for (String _date in dates){
+  //   dateList.add(_date);
+  // }
+
+  List<Map<String, dynamic>> first = List<Map<String, dynamic>>();
+  List<Map<String, dynamic>> second = List<Map<String, dynamic>>();
+  List<Map<String, dynamic>> third = List<Map<String, dynamic>>();
+  List<Map<String, dynamic>> fourth = List<Map<String, dynamic>>();
+
+  for (int k = 0; k<futureData.length; k++){
+    if (futureData[k]['Serve_Date'] == ddl[1]){
+      first.add(futureData[k]);
+    }
+    if (futureData[k]['Serve_Date'] == ddl[2]){
+      second.add(futureData[k]);
+    }
+    if (futureData[k]['Serve_Date'] == ddl[3]){
+      third.add(futureData[k]);
+    }
+    if (futureData[k]['Serve_Date'] == ddl[4]){
+      fourth.add(futureData[k]);
+    }
+  }
+
+  List<List<dynamic>> futureMenuMenu = [[]];
+
+
+  futureMenuMenu.add(first);
+  futureMenuMenu.add(second);
+  futureMenuMenu.add(third);
+  futureMenuMenu.add(fourth);
+
+  setState(() {
+    futureMenu = futureMenuMenu.sublist(1);
+  });
+  // futureMenu[# of days into the future][item index]
+
+  }
+
+  void setMenu(int index) {
+    if (index == 0)
+    {
+      setState(() {
+        Globals.futureData = Globals.data;
+      });
+    }
+    else{
+      setState(() {
+        Globals.futureData = futureMenu[index-1];
+      });
+    }
+
   }
 
   // _showErrorDialog() {
@@ -147,6 +240,28 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  // DateTime now = new DateTime.now();
+  // DateTime date = new DateTime(now.year, now.month, now.day);
+
+  // String dropdownValue = DateTime(now.year, now.month, now.day);
+
+  List<DropdownMenuItem<String>> _dropDownItem() {
+
+    return ddl.map(
+      (value) =>
+      DropdownMenuItem(
+        value: value,
+        child: Center(child: Text(value, style: TextStyle(fontSize: 30,fontFamily: "Montserrat"), textAlign: TextAlign.center,)),
+      )
+    ).toList();
+  }
+
+  Timer _timer;
+
+  Future<void> doNothing () async{
+    
+  }
+
 
   @override
   void initState() {
@@ -154,6 +269,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _scrollController.addListener(_scrollListener);
     _checkConnectivity();
     //getTodayMenu();
+    getFutureMenu();
     Ads.initialize();
     Ads.showBannerAd();
     super.initState();
@@ -193,19 +309,102 @@ class _MyHomePageState extends State<MyHomePage> {
         automaticallyImplyLeading: false,
             elevation: 0,
             backgroundColor: Colors.white,
-            title: Text(
-              'EatBC',
-              style: TextStyle(
-                fontSize: 36,
-                fontFamily: 'Utopia',
-                color: Color(0xFF8a100b)
-              ),
+            // title: Text(
+            //   'EatBC',
+            //   style: TextStyle(
+                // fontSize: 36,
+                // fontFamily: 'Utopia',
+                // color: Color(0xFF8a100b)
+            //   ),
+            // ),
+            title: Container(
+              width: MediaQuery.of(context).size.width/2,
+              child: DropdownButtonHideUnderline(
+                    child: DropdownButton(
+                      isExpanded: true,
+                      dropdownColor: Colors.white,
+                      icon: Icon(
+                        Icons.arrow_drop_down,
+                        size: 34,
+                        color: Color(0xFF8a100b),
+                      ),
+                      elevation: 0,
+                      style: TextStyle(
+                        // color: Color(0xFF2A7FC5),
+                        // fontSize: 20,
+                        // fontFamily: "Poppins"
+                        fontSize: 36,
+                        fontFamily: 'Utopia',
+                        color: Color(0xFF8a100b),
+                      ),
+                      value: dropdownValue,
+                      items: _dropDownItem(),
+                      onChanged: (value){
+                        print(value);
+                        setState(() {
+                          dropdownValue=value;
+                          if (value == ddl[0])
+                          {
+                            setMenu(ddl.indexOf(value));
+                          }
+                          else if (value == ddl[1])
+                          {
+                            setMenu(ddl.indexOf(value));
+                          }
+                          else if (value == ddl[2])
+                          {
+                            setMenu(ddl.indexOf(value));
+                          }
+                          else if (value == ddl[3])
+                          {
+                            setMenu(ddl.indexOf(value));
+                          }
+                          else if (value == ddl[4])
+                          {
+                            setMenu(ddl.indexOf(value));
+                          }
+                        //   switch (value) {
+                        //     case "1 Month":
+                        //       getHistory(
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -30, hours: 5))).toString() + "Z",
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
+                        //       );
+                        //       break;
+                        //     case "3 Months":
+                        //       getHistory(
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -90, hours: 5))).toString() + "Z",
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
+                        //       );
+                        //       break;
+                        //     case "6 Months":
+                        //       getHistory(
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -180, hours: 5))).toString() + "Z",
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
+                        //       );
+                        //       break;
+                        //     case "1 Year":
+                        //       getHistory(
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -365, hours: 5))).toString() + "Z",
+                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
+                        //       );
+                        //       break;
+                        //     case "All Sessions":
+                        //       getHistory(null, null);
+                        //       break;
+                        //   }
+                          
+                        });
+                        
+                        
+                      },
+                    ),
+                  ),
             ),
           ),
         body: RefreshIndicator(
           color: Color(0xFF8a100b),
           displacement: 10,
-          onRefresh: getTodayMenu,
+          onRefresh: doNothing,
           child: SingleChildScrollView(
             child: Column(
               children: [
@@ -221,7 +420,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           Container(
-                            margin: index != 0 ? EdgeInsets.only(left: 16, right: 16, top: 16,) : EdgeInsets.only(left: 16, right: 16, top: 8),
+                            margin: index != 0 ? EdgeInsets.only(left: 24, right: 24, top: 24,) : EdgeInsets.only(left: 24, right: 24, top: 16),
                             height: 240,
                             width: MediaQuery.of(context).size.width,
                             decoration: BoxDecoration(
