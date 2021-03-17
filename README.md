@@ -6,6 +6,8 @@ Find out what's being served on campus!
 
 EatBC allows users to see all open dining halls and view their complete menus.
 
+Tapping on the date in the upper-left corner allows the user to view the menu for the current date, as well as several days in advance!
+
 Tap on a dining location and swipe between screens to see the menus for breakfast, lunch, and dinner (late night too)!
 
 Tap on a menu item to see the nutritional information, allergens and more!
