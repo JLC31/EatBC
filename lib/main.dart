@@ -251,12 +251,10 @@ class _MyHomePageState extends State<MyHomePage> {
       (value) =>
       DropdownMenuItem(
         value: value,
-        child: Center(child: Text(value, style: TextStyle(fontSize: 30,fontFamily: "Montserrat"), textAlign: TextAlign.center,)),
+        child: Center(child: Text(value, style: TextStyle(fontSize: 30,fontFamily: "Montserrat", fontWeight: FontWeight.w500), textAlign: TextAlign.center)),
       )
     ).toList();
   }
-
-  Timer _timer;
 
   Future<void> doNothing () async{
     
@@ -363,35 +361,6 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             setMenu(ddl.indexOf(value));
                           }
-                        //   switch (value) {
-                        //     case "1 Month":
-                        //       getHistory(
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -30, hours: 5))).toString() + "Z",
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
-                        //       );
-                        //       break;
-                        //     case "3 Months":
-                        //       getHistory(
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -90, hours: 5))).toString() + "Z",
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
-                        //       );
-                        //       break;
-                        //     case "6 Months":
-                        //       getHistory(
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -180, hours: 5))).toString() + "Z",
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
-                        //       );
-                        //       break;
-                        //     case "1 Year":
-                        //       getHistory(
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(days: -365, hours: 5))).toString() + "Z",
-                        //         DateFormat("yyyy-MM-ddTHH:mm:ss").format(DateTime.now().add(Duration(hours: 5))).toString() + "Z"
-                        //       );
-                        //       break;
-                        //     case "All Sessions":
-                        //       getHistory(null, null);
-                        //       break;
-                        //   }
                           
                         });
                         
@@ -605,17 +574,17 @@ class _ShowAboutPageState extends State<ShowAboutPage> {
               SizedBox(
                 height: 10,
               ),
-              Text(
-                'Copyright © John LaCava, 2020',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontFamily: 'Montserrat',
-                  color: Colors.grey[600]
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
+              // Text(
+              //   'Copyright © John LaCava, 2020',
+              //   style: TextStyle(
+              //     fontSize: 14,
+              //     fontFamily: 'Montserrat',
+              //     color: Colors.grey[600]
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // ),
               Divider(
                 thickness: 1,
               ),
