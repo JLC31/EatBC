@@ -12,6 +12,8 @@ Tap on a dining location and swipe between screens to see the menus for breakfas
 
 Tap on a menu item to see the nutritional information, allergens and more!
 
+![plot](.previews/iPhone X Preview 1.png)
+
 # Notice
 
 The items shown on the app are taken directly from campus dining's website. There may be an item that is shown on the app that is not available in the dining location (or vice versa). Be aware that items are subject to change.
