@@ -12,7 +12,8 @@ Tap on a dining location and swipe between screens to see the menus for breakfas
 
 Tap on a menu item to see the nutritional information, allergens and more!
 
-![Screenshot](previews/iPhoneXPreview1.png){:height="36px" width="36px"}
+<img src="previews/iPhoneXPreview1.png" width="200" />
+![Screenshot](previews/iPhoneXPreview1.png)
 ![Screenshot](previews/iPhoneXPreview2.png)
 ![Screenshot](previews/iPhoneXPreview3.png)
 
