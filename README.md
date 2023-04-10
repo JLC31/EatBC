@@ -11,10 +11,11 @@ Tapping on the date in the upper-left corner allows the user to choose the menu 
 Tap on a dining location and swipe between screens to see the menus for breakfast, lunch, and dinner (late night too)!
 
 Tap on a menu item to see the nutritional information, allergens and more!
-
-<img src="previews/iPhoneXPreview1.png" width="200" />
-<img src="previews/iPhoneXPreview2.png" width="200" />
-<img src="previews/iPhoneXPreview3.png" width="200" />
+<div class="row">
+  <img src="previews/iPhoneXPreview1.png" width="200" />
+  <img src="previews/iPhoneXPreview2.png" width="200" />
+  <img src="previews/iPhoneXPreview3.png" width="200" />
+</div>
 
 # Notice
 
